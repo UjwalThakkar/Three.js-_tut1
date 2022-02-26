@@ -1,0 +1,42 @@
+     Part 2
+
+In "Part 2" we start with rendering 3d object, which can be done in following ways
+ * using primitive geometry provided by three.js
+ * creating 3d object by defining vertices
+ * importing 3d models
+To keep it simple and easily understandable we will be using primitive geometry provided by the three.js
+
+------------------------------------------------------------------------------------------------------------------------
+
+creating a sphere:
+
+        var geometry = new THREE.SphereGeometry(1, 10, 10);//(radius, widthSegment, heightSegment, phiStart, ....)
+        var material = new THREE.MeshLambertMaterial({color: 0xffcc00});
+        var mesh = new THREE.Mesh(geometry, material);
+        
+        scene.add(mesh); 
+        
+there are a verity of obejcts like box, shpere, cylinder, cone etc
+and different type of materials which can me modified by changing their parameters
+after selecting the shape/form and material we create a mesh for it which will be rendered on the scene
+
+------------------------------------------------------------------------------------------------------------------------
+
+now with this done we can see the sphere on the canvas. but it appears to be pitch black.
+It is because there are no lights in our scene.
+so lets get started with adding some light:
+
+        var light = new THREE.PointLight(0xFFFFFF, 1, 500);// (color, intensity, distance, decay)
+        light.position.set(10, 0, 25) // (positionX, positionY, positionZ)
+        scene.add(light); 
+
+here we are using PointLight, you can play around and experiment with different lights like AmbientLight, AmbientLightProbe, DirectionalLight, SpotLight etc
+
+------------------------------------------------------------------------------------------------------------------------
+
+in Part 2 we have learned how to create and render a sphere geometry on our canvas and add some lights to our scene 
+
+next step:
+ solve the aspect ratio resize problem
+ adding different geometry
+ moving them around the convas
