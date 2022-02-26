@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/styles.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(
+            75,//FOV
+            window.innerWidth / window.innerHeight, //aspect ratio
+            0.1, //near plane
+            1000, //far plane
+        )
+        camera.position.z = 5;
+        var renderer = new THREE.WebGLRenderer({antialias: true}); // passing anti-alias to prevent jagged edges
+
+            // above three things are to be done for any three js project 
+
+        renderer.setClearColor("#e5e5e5"); // background color
+        renderer.setSize(window.innerWidth, window.innerHeight); // renderer's size
+
+        document.body.appendChild( renderer.domElement );
+
+        //Common Problem 1 : if window is resized the canvas and camera wont re-adjust and the page needs to be refreshed. 
+        //so to solve that we use window event listner to listen for window resizing and adjusting the canvas and camera's aspect ratio
+        window.addEventListener('resize', ()=>{
+            renderer.setSize(window.innerWidth, window.innerHeight); // resize canvas
+            camera.aspect = window.innerWidth/window.innerHeight; // resetting camera aspect ration
+
+            camera.updateProjectionMatrix(); // reload the project of smthng
+        })
+
+        
+
+        //var geometry = new THREE.SphereGeometry(1, 10, 10);//(radius, widthSegment, heightSegment, phiStart, ....)
+        var geometry = new THREE.BoxGeometry(1,1,1); // x,y,z scale of box
+        var material = new THREE.MeshLambertMaterial({color: 0xffcc00});
+        var mesh = new THREE.Mesh(geometry, material);
+
+        // mesh.position.x = 2; // moving the mesh     
+        // mesh.position.y = 2; // moving the mesh     
+        // mesh.position.z = 2; // moving the mesh     
+        // mesh.position.set(0, 0 ,1);//using shorthand for x y z
+        // mesh.rotation.set(45, 0, 0);//using rotation for x y z
+        //also has mesh.scale.set(x,y,z);
+
+
+        scene.add(mesh);
+        // using this we render a sphere in our canvas. but u may find that it is pitch black!
+        //thats cuz there are no lights in out scene. duh, basic knowladge (camera, lights, scene) are basic necessities of 3d scene
+
+        var light = new THREE.PointLight(0xFFFFFF, 1, 500);// (color, intensity, distance, decay)
+        light.position.set(10, 0, 25) // (positionX, positionY, positionZ)
+        scene.add(light); 
+
+        //renderer.render(scene, camera); // rendering the scene 
+        var render = function(){
+            requestAnimationFrame(render); // like update function calls render every time screen refresh: for normal screens 60 times i.e. 60fps
+
+            // mesh.rotation.x += 0.1;
+            // mesh.rotation.y += 0.1;
+
+            renderer.render(scene, camera);
+        }
+
+        render();
+
+        this.tl = new TimelineMax({paused: true});
+        this.tl.to(this.mesh.scale, 1, {x: 2, ease: Expo.easeOut})
+        this.tl.to(this.mesh.scale, .5, {x: .5, ease: Expo.easeOut})
+        this.tl.to(this.mesh.position, 1, {x: 2, ease: Expo.easeOut})
+        this.tl.to(this.mesh.rotation, .5, {y: Math.PI*.5, ease: Expo.easeOut}, "=-2")
+
+        document.body.addEventListener('click', () => {
+            this.tl.play();
+        })
+    </script>
+</body>
+</html>
