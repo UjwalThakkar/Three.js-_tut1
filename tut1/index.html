@@ -39,6 +39,24 @@
 
             camera.updateProjectionMatrix(); // reload the project of smthng
         })
+        
+        var geometry = new THREE.SphereGeometry(1, 10, 10);//(radius, widthSegment, heightSegment, phiStart, ....)
+        var material = new THREE.MeshLambertMaterial({color: 0xffcc00});
+        var mesh = new THREE.Mesh(geometry, material);
+
+        // mesh.position.x = 2; // moving the mesh     
+        // mesh.position.y = 2; // moving the mesh     
+        // mesh.position.z = 2; // moving the mesh     
+        // mesh.position.set(0, 0 ,1);//using shorthand for x y z
+        // mesh.rotation.set(45, 0, 0);//using rotation for x y z
+        //also has mesh.scale.set(x,y,z);
+        
+        scene.add(mesh);
+        
+        var light = new THREE.PointLight(0xFFFFFF, 1, 500);// (color, intensity, distance, decay)
+        light.position.set(10, 0, 25) // (positionX, positionY, positionZ)
+        scene.add(light); 
+
 
         
 
