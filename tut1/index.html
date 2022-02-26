@@ -42,48 +42,9 @@
 
         
 
-        //var geometry = new THREE.SphereGeometry(1, 10, 10);//(radius, widthSegment, heightSegment, phiStart, ....)
-        var geometry = new THREE.BoxGeometry(1,1,1); // x,y,z scale of box
-        var material = new THREE.MeshLambertMaterial({color: 0xffcc00});
-        var mesh = new THREE.Mesh(geometry, material);
-
-        // mesh.position.x = 2; // moving the mesh     
-        // mesh.position.y = 2; // moving the mesh     
-        // mesh.position.z = 2; // moving the mesh     
-        // mesh.position.set(0, 0 ,1);//using shorthand for x y z
-        // mesh.rotation.set(45, 0, 0);//using rotation for x y z
-        //also has mesh.scale.set(x,y,z);
-
-
-        scene.add(mesh);
-        // using this we render a sphere in our canvas. but u may find that it is pitch black!
-        //thats cuz there are no lights in out scene. duh, basic knowladge (camera, lights, scene) are basic necessities of 3d scene
-
-        var light = new THREE.PointLight(0xFFFFFF, 1, 500);// (color, intensity, distance, decay)
-        light.position.set(10, 0, 25) // (positionX, positionY, positionZ)
-        scene.add(light); 
-
-        //renderer.render(scene, camera); // rendering the scene 
-        var render = function(){
-            requestAnimationFrame(render); // like update function calls render every time screen refresh: for normal screens 60 times i.e. 60fps
-
-            // mesh.rotation.x += 0.1;
-            // mesh.rotation.y += 0.1;
-
+       
             renderer.render(scene, camera);
-        }
-
-        render();
-
-        this.tl = new TimelineMax({paused: true});
-        this.tl.to(this.mesh.scale, 1, {x: 2, ease: Expo.easeOut})
-        this.tl.to(this.mesh.scale, .5, {x: .5, ease: Expo.easeOut})
-        this.tl.to(this.mesh.position, 1, {x: 2, ease: Expo.easeOut})
-        this.tl.to(this.mesh.rotation, .5, {y: Math.PI*.5, ease: Expo.easeOut}, "=-2")
-
-        document.body.addEventListener('click', () => {
-            this.tl.play();
-        })
+    
     </script>
 </body>
 </html>
